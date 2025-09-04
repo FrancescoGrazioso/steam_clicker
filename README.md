@@ -45,20 +45,22 @@ python main.py
 1. **Clicks** the Steam cart purchase button at regular intervals
 2. **Checks** a specific pixel color to verify purchase success
 3. **Stops** when the target color is detected (purchase successful)
-4. **Safety**: Press `5` key or move mouse to top-left corner to stop anytime
+4. **Controls**: Press `5` to pause/resume, `q` to quit, or move mouse to top-left corner for emergency stop
 
 ## ⚠️ Important Notes
 
 - **Test first**: Run with a cheap item to verify coordinates work correctly
 - **Steam must be visible**: The script needs to see the Steam window
 - **Don't move mouse**: Keep the mouse away from the top-left corner (failsafe)
+- **Pause when needed**: Use `5` to pause if you need to check something, then press `5` again to resume
 - **One purchase only**: The script stops after detecting successful purchase
 
-## 🛑 Emergency Stop
+## 🛑 Controls
 
-- Press `5` key
-- Move mouse to top-left corner of screen
-- Close the terminal window
+- **Pause/Resume**: Press `5` key (toggles between pause and resume)
+- **Quit**: Press `q` key to stop the script completely
+- **Emergency Stop**: Move mouse to top-left corner of screen
+- **Force Close**: Close the terminal window
 
 ## 📋 Requirements
 

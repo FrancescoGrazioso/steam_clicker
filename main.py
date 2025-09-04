@@ -15,11 +15,22 @@ INTERVAL_SECONDS = 0.5            # main interval
 pyautogui.FAILSAFE = True  # move mouse to top-left corner to stop
 
 stop_event = threading.Event()
+pause_event = threading.Event()
 
 def on_press(key):
-    """Kill-switch: press '5' to stop."""
+    """Pause/Resume: press '5' to pause/resume. Press 'q' to quit."""
     try:
         if getattr(key, "char", None) == "5":
+            if pause_event.is_set():
+                # Currently paused, resume
+                pause_event.clear()
+                print("Resumed.")
+            else:
+                # Currently running, pause
+                pause_event.set()
+                print("Paused. Press '5' to resume or 'q' to quit.")
+        elif getattr(key, "char", None) == "q":
+            # Quit the program
             stop_event.set()
             return False  # closes the listener
     except Exception:
@@ -41,6 +52,13 @@ def main():
     listener.start()
     try:
         while not stop_event.is_set():
+            # Check if paused
+            if pause_event.is_set():
+                # Wait while paused, checking for resume or quit
+                while pause_event.is_set() and not stop_event.is_set():
+                    time.sleep(0.1)
+                continue
+            
             # First click at defined interval
             pyautogui.click(*CLICK_POS)
             time.sleep(0.05)  # small delay to stabilize the frame
@@ -53,8 +71,8 @@ def main():
                 pyautogui.click(*CLICK_POS)
                 # wait until next cycle
                 slept = 0.0
-                # fractional wait so kill-switch is responsive
-                while slept < INTERVAL_SECONDS and not stop_event.is_set():
+                # fractional wait so pause/quit controls are responsive
+                while slept < INTERVAL_SECONDS and not stop_event.is_set() and not pause_event.is_set():
                     time.sleep(0.05)
                     slept += 0.05
             else:
@@ -68,7 +86,7 @@ def main():
             pass
 
 if __name__ == "__main__":
-    print("Starting. Press '5' to stop. (Failsafe: move mouse to top-left corner)")
+    print("Starting. Press '5' to pause/resume, 'q' to quit. (Failsafe: move mouse to top-left corner)")
     main()
     print("Terminated.")
 

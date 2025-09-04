@@ -1,4 +1,5 @@
 # Steam Clicker - Hollow Knight Silksong Auto Purchase
+<img width="1016" height="555" alt="Screenshot 2025-09-04 at 17 59 26" src="https://github.com/user-attachments/assets/1f3ac65c-cd2b-4bf3-b6a2-ccecf0612e46" />
 
 A simple Python script to automatically click the Steam cart purchase button and verify the purchase was successful by checking pixel colors.
 
